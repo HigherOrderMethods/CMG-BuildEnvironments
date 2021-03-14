@@ -1,9 +1,14 @@
-# SELF Build Environments
+# CMG Build Environments
 Copyright 2021 Fluid Numerics LLC
 
-This repository contains Dockerfile definitions for images that are used as the base build environments for [SELF](https://github.com/FluidNumerics/SELF). Intentionally, this repository may be useful for other software projects that are looking to build modern HPC applications that need to target traditional CPU only platforms and GPU accelerated platforms from multiple vendors.
+## About {Compiler}-{MPI}-{GPU} Build Environments
+This repository contains Dockerfile definitions for images that are used as the base build environments for modern HPC applications that need to target traditional CPU only platforms and GPU accelerated platforms from multiple vendors.
 
-SELF can be built for cpu-only (serial and parallel), gpu, and multi-gpu platforms. For GPU platforms, [hipfort](https://github.com/ROCmSoftwarePlatform/hipfort) enables builds for AMD and Nvidia hardware. Because of this, there are a number of build environments that are needed for building SELF artifacts that can be deployed on a variety of hardware
+Container recipes included in this repository leverage [spack](https://github.com/spack/spack) environments to help keep recipes as simple as possible.
+
+This repository is motivated by the view that modern HPC applications can be built for cpu-only (serial and parallel), gpu, and multi-gpu platforms. 
+
+For GPU platforms, [hip](https://github.com/ROCm-Developer-Tools/hip) and [hipfort](https://github.com/ROCmSoftwarePlatform/hipfort) enable builds for AMD and Nvidia hardware. Because of this, there are a number of build environments that are needed for building modern HPC application containers that can be deployed on a variety of hardware
 
 * Serial x86 CPU
 * Parallel x86 CPU
@@ -20,9 +25,19 @@ Build environments in this repository are organized by `{compiler}/{mpi}/{platfo
 * [`gcc-10.2.0/serial/x86-hcc`][./env/gcc-10.2.0/serial/x86-hcc]
 * [`gcc-10.2.0/serial/x86-nvcc`][./env/gcc-10.2.0/serial/x86-nvcc]
 
+Planned build environments include
+* [`gcc-10.2.0/openmpi/x86`][./env/gcc-10.2.0/openmpi/x86]
+* [`gcc-10.2.0/openmpi/x86-hcc`][./env/gcc-10.2.0/openmpi/x86-hcc]
+* [`gcc-10.2.0/openmpi/x86-nvcc`][./env/gcc-10.2.0/openmpi/x86-nvcc]
+
+
+### Repositories using these recipes
+
+* [SELF](https://github.com/FluidNumerics/SELF).
 
 ## Usage
-If you are a SELF developer and you would like to have these build environments, you can build Docker images using the Dockerfiles in any of the `env/` subdirectories. If you are working on Google Cloud Platform, you can use the provided [cloudbuild.yaml](./cloudbuild.yaml) file to build the build environments and post the resulting images to your container registry, e.g.
+You can build Docker images using the Dockerfiles in any of the `env/` subdirectories. 
+If you are working on Google Cloud Platform, you can use the provided [cloudbuild.yaml](./cloudbuild.yaml) file to build the build environments and post the resulting images to your container registry, e.g.
 ```
 gcloud builds submit . --substitutions=_COMPILER=gcc-10.2.0,_MPI=serial,_PLATFORM=x86-hcc --async
 ```
