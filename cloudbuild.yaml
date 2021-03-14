@@ -1,0 +1,19 @@
+
+steps:
+        - id: Build Docker Image
+          name: 'gcr.io/cloud-builders/docker'
+          args: ['build',
+                 'env/${_COMPILER}/${_MPI}/${_PLATFORM}',
+                 '-t',
+                 'gcr.io/${PROJECT_ID}/${_COMPILER}-${_MPI}-${_PLATFORM}:${_IMAGE_TAG}'
+          ]
+
+images: ['gcr.io/${PROJECT_ID}/${_COMPILER}-${_MPI}-${_PLATFORM}:${_IMAGE_TAG}']
+
+timeout: 7200s
+
+substitutions:
+        _IMAGE_TAG: 'latest'
+        _COMPILER: 'gcc-10.2.0'
+        _MPI: 'serial'
+        _PLATFORM: 'x86'
