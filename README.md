@@ -1,5 +1,5 @@
 # CMG Build Environments
-Copyright 2021 Fluid Numerics LLC
+Copyright 2021 [Fluid Numerics LLC](https://fluidnumerics.com)
 
 ## About {Compiler}-{MPI}-{GPU} Build Environments
 This repository contains Dockerfile definitions for images that are used as the base build environments for modern HPC applications that need to target traditional CPU only platforms and GPU accelerated platforms from multiple vendors.
@@ -53,3 +53,10 @@ If you have another compiler, MPI flavor, or target platform you would like to c
 5. Work with the maintainers to get your changes merged in!
 
 
+## Support
+To obtain support, simply post a new issue to this repository.
+
+### About the support team
+The HigherOrderMethods organization is a (new) community driven organization started by [Fluid Numerics LLC](https://fluidnumerics.com) that aims to provide open-source tools for modern HPC and Scientific Computing applications. As a community organization, support of this repository depends on volunteerism from the community. Reach out to joe@fluidnumerics.com to become a member of this community.
+
+Contributors to this repository contribute on a volunteer basis. We will do our best to respond to issues as they arise. Keep in mind that the open-source license applied to this repository releases Fluid Numerics LLC and HigherOrderMethods from any liability related to the usage of this code. Additionally, the license, like all open-source licenses, does not provide any guarantee of support.
