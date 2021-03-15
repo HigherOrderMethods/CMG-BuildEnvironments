@@ -21,14 +21,14 @@ Build environments in this repository are organized by `{compiler}/{mpi}/{platfo
 
  Currently available build environments are
 
-* [`gcc-10.2.0/serial/x86`][./env/gcc-10.2.0/serial/x86]
-* [`gcc-10.2.0/serial/x86-hcc`][./env/gcc-10.2.0/serial/x86-hcc]
-* [`gcc-10.2.0/serial/x86-nvcc`][./env/gcc-10.2.0/serial/x86-nvcc]
+* [`gcc-10.2.0/serial/x86`](./env/gcc-10.2.0/serial/x86)
+* [`gcc-10.2.0/serial/x86-hcc`](./env/gcc-10.2.0/serial/x86-hcc)
+* [`gcc-10.2.0/serial/x86-nvcc`](./env/gcc-10.2.0/serial/x86-nvcc)
 
 Planned build environments include
-* [`gcc-10.2.0/openmpi/x86`][./env/gcc-10.2.0/openmpi/x86]
-* [`gcc-10.2.0/openmpi/x86-hcc`][./env/gcc-10.2.0/openmpi/x86-hcc]
-* [`gcc-10.2.0/openmpi/x86-nvcc`][./env/gcc-10.2.0/openmpi/x86-nvcc]
+* [`gcc-10.2.0/openmpi/x86`] # (./env/gcc-10.2.0/openmpi/x86)
+* [`gcc-10.2.0/openmpi/x86-hcc`] # (./env/gcc-10.2.0/openmpi/x86-hcc)
+* [`gcc-10.2.0/openmpi/x86-nvcc`] # (./env/gcc-10.2.0/openmpi/x86-nvcc)
 
 
 ### Repositories using these recipes
