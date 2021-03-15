@@ -57,6 +57,6 @@ If you have another compiler, MPI flavor, or target platform you would like to c
 To obtain support, simply post a new issue to this repository.
 
 ### About the support team
-The HigherOrderMethods organization is a (new) community driven organization started by [Fluid Numerics LLC](https://fluidnumerics.com) that aims to provide open-source tools for modern HPC and Scientific Computing applications. As a community organization, support of this repository depends on volunteerism from the community. Reach out to joe@fluidnumerics.com to become a member of this community.
+The HigherOrderMethods organization is a (new) community driven organization started by [Fluid Numerics LLC](https://fluidnumerics.com) that aims to provide open-source tools for modern HPC and Scientific Computing applications. As a community organization, support of this repository depends on volunteerism from the community. [Become a member of this community](https://forms.gle/YwBhyCXVEiZPH1pN6)
 
 Contributors to this repository contribute on a volunteer basis. We will do our best to respond to issues as they arise. Keep in mind that the open-source license applied to this repository releases Fluid Numerics LLC and HigherOrderMethods from any liability related to the usage of this code. Additionally, the license, like all open-source licenses, does not provide any guarantee of support.
