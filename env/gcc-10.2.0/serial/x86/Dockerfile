@@ -13,6 +13,25 @@ RUN git clone https://github.com/spack/spack.git --branch ${SPACK_VERSION} /opt/
     spack compiler find --scope=defaults
 
 
+RUN mkdir /opt/spack-environment \
+&&  (echo "spack:" \
+&&   echo "  specs:" \
+&&   echo "  - cmake@3.20.1 % gcc@10.2.0" \
+&&   echo "  concretization: together" \
+&&   echo "  config:" \
+&&   echo "    install_tree: /opt/software" \
+&&   echo "  view: /opt/view") > /opt/spack-environment/spack.yaml
+
+# Install the software, remove unnecessary deps
+RUN . /opt/spack/share/spack/setup-env.sh && \ 
+    cd /opt/spack-environment && spack env activate . && spack install --fail-fast && spack gc -y
+
+# Modifications to the environment that are necessary to run
+RUN . /opt/spack/share/spack/setup-env.sh && \ 
+    cd /opt/spack-environment && \
+    spack env activate --sh -d . >> /etc/profile.d/z10_spack_environment.sh
+
+
 FROM gcc:10.2.0
 COPY --from=builder /opt /opt
 COPY --from=builder /etc/profile.d /etc/profile.d
