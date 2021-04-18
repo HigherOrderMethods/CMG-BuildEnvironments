@@ -1,6 +1,6 @@
 FROM gcc:10.2.0 as builder
 
-ARG SPACK_VERSION="v0.16.0"
+ARG SPACK_VERSION="v0.16.1"
 
 RUN apt-get update -y && \
     apt-get install git
@@ -24,7 +24,7 @@ RUN mkdir /opt/spack-environment \
 
 # Install the software, remove unnecessary deps
 RUN . /opt/spack/share/spack/setup-env.sh && \ 
-    cd /opt/spack-environment && spack env activate . && spack install --no-checksum --fail-fast && spack gc -y
+    cd /opt/spack-environment && spack env activate . && spack install --fail-fast && spack gc -y
 
 # Modifications to the environment that are necessary to run
 RUN . /opt/spack/share/spack/setup-env.sh && \ 
