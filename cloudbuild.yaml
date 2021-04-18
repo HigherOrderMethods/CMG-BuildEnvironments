@@ -3,12 +3,12 @@ steps:
         - id: Build Docker Image
           name: 'gcr.io/cloud-builders/docker'
           args: ['build',
-                 'env/${_COMPILER}/${_MPI}/${_PLATFORM}',
+                 'env/${_COMPILER}/${_MPI}/${_PLATFORM}/${_ADD_ONS}',
                  '-t',
-                 'gcr.io/${PROJECT_ID}/${_COMPILER}-${_MPI}-${_PLATFORM}:${_IMAGE_TAG}'
+                 'gcr.io/${PROJECT_ID}/cmg-${_COMPILER}-${_MPI}-${_PLATFORM}_${_ADD_ONS}:${_IMAGE_TAG}'
           ]
 
-images: ['gcr.io/${PROJECT_ID}/cmg-${_COMPILER}-${_MPI}-${_PLATFORM}:${_IMAGE_TAG}']
+images: ['gcr.io/${PROJECT_ID}/cmg-${_COMPILER}-${_MPI}-${_PLATFORM}_${_ADD_ONS}:${_IMAGE_TAG}']
 
 timeout: 7200s
 
@@ -17,3 +17,4 @@ substitutions:
         _COMPILER: 'gcc-10.2.0'
         _MPI: 'serial'
         _PLATFORM: 'x86'
+        _ADD_ONS: 'hdf5'
