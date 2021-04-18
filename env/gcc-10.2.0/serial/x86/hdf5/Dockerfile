@@ -26,7 +26,7 @@ RUN mkdir /opt/spack-environment \
 
 # Install the software, remove unnecessary deps
 RUN . /opt/spack/share/spack/setup-env.sh && \ 
-    cd /opt/spack-environment && spack env activate . && spack install --fail-fast && spack gc -y
+    cd /opt/spack-environment && spack env activate . && spack install --no-checksum --fail-fast && spack gc -y
 
 # Modifications to the environment that are necessary to run
 RUN . /opt/spack/share/spack/setup-env.sh && \ 
