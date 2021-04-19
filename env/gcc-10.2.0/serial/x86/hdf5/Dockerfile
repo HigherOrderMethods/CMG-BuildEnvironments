@@ -17,7 +17,7 @@ RUN git clone https://github.com/spack/spack.git --branch ${SPACK_VERSION} /opt/
 RUN mkdir /opt/spack-environment \
 &&  (echo "spack:" \
 &&   echo "  specs:" \
-&&   echo "  - cmake@3.20.0 % gcc@10.2.0" \
+&&   echo "  - cmake@3.18.4 % gcc@10.2.0" \
 &&   echo "  - hdf5@1.12.0+cxx+fortran~mpi % gcc@10.2.0" \
 &&   echo "  concretization: together" \
 &&   echo "  config:" \
