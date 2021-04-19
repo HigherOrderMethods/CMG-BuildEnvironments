@@ -10,7 +10,7 @@ steps:
 
 images: ['gcr.io/${PROJECT_ID}/cmg-${_COMPILER}-${_MPI}-${_PLATFORM}_${_ADD_ONS}:${_IMAGE_TAG}']
 
-timeout: 7200s
+timeout: 14400s
 
 substitutions:
         _IMAGE_TAG: 'latest'
@@ -18,3 +18,6 @@ substitutions:
         _MPI: 'serial'
         _PLATFORM: 'x86'
         _ADD_ONS: 'hdf5'
+
+options:
+        machineType: 'E2_HIGHCPU_8'
