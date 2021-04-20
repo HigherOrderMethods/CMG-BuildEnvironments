@@ -1,6 +1,6 @@
 FROM gcc:10.2.0 as builder
 
-ARG SPACK_VERSION="v0.16.0"
+ARG SPACK_VERSION="develop"
 
 RUN apt-get update -y && \
     apt-get install git
@@ -18,7 +18,7 @@ RUN mkdir /opt/spack-environment \
 &&   echo "  specs:" \
 &&   echo "  - cmake@3.18.4 % gcc@10.2.0" \
 &&   echo "  - hdf5@1.12.0+cxx+fortran~mpi % gcc@10.2.0" \
-&&   echo "  - hipfort@4.0.0 % gcc@10.2.0" \
+&&   echo "  - hipfort@4.1.0 % gcc@10.2.0" \
 &&   echo "  concretization: together" \
 &&   echo "  config:" \
 &&   echo "    install_tree: /opt/software" \
