@@ -17,6 +17,7 @@ RUN mkdir /opt/spack-environment \
 &&  (echo "spack:" \
 &&   echo "  specs:" \
 &&   echo "  - cmake@3.18.4 % gcc@10.2.0" \
+&&   echo "  - hdf5@1.12.0+cxx+fortran~mpi % gcc@10.2.0" \
 &&   echo "  - hipfort@4.0.0 % gcc@10.2.0" \
 &&   echo "  concretization: together" \
 &&   echo "  config:" \
@@ -32,20 +33,8 @@ RUN . /opt/spack/share/spack/setup-env.sh && \
     cd /opt/spack-environment && \
     spack env activate --sh -d . >> /etc/profile.d/z10_spack_environment.sh
 
-# Install cuda-compiler
-RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/debian10/x86_64/7fa2af80.pub &&\
-    add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/debian10/x86_64 /" &&\
-    add-apt-repository contrib &&\
-    apt-get -y update &&\
-    apt-get -y install cuda-compiler &&\
-    echo "#!/bin/bash" > /etc/profile.d/cuda.sh &&\
-    echo "export PATH=/usr/local/cuda-11.2/bin\${PATH:+:\${PATH}}" >> /etc/profile.d/cuda.sh &&\
-    echo "export LD_LIBRARY_PATH=/usr/local/cuda-11.2/lib64\${LD_LIBRARY_PATH:+:\${LD_LIBRARY_PATH}}" >> /etc/profile.d/cuda.sh
-
-
 FROM gcc:10.2.0
 COPY --from=builder /opt /opt
 COPY --from=builder /etc/profile.d /etc/profile.d
-COPY --from=builder /usr/local/cuda-11.2 /usr/local/cuda-11.2
 
 ENTRYPOINT ["/bin/bash", "--rcfile", "/etc/profile", "-l"]
