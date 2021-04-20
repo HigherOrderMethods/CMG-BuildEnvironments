@@ -26,23 +26,23 @@ RUN mkdir /opt/spack-environment \
 RUN . /opt/spack/share/spack/setup-env.sh && \ 
     cd /opt/spack-environment && spack env activate . && spack install --fail-fast && spack gc -y
 
+# Modifications to the environment that are necessary to run
+RUN . /opt/spack/share/spack/setup-env.sh && \ 
+    cd /opt/spack-environment && \
+    spack env activate --sh -d . >> /etc/profile.d/z10_spack_environment.sh
+
 # Install rocm + hipfort
 RUN . /etc/profile.d/z10_spack_environment.sh \
 &&  wget -q -O - https://repo.radeon.com/rocm/rocm.gpg.key | apt-key add - \
-&&  echo 'deb [arch=amd64] https://repo.radeon.com/rocm/apt/debian/ xenial main' | tee /etc/apt/sources.list.d/rocm.list \
+&&  echo 'deb [arch=amd64] https://repo.radeon.com/rocm/apt/4.1.1/ xenial main' | tee /etc/apt/sources.list.d/rocm.list \
 &&  apt-get update -y \
 &&  apt-get install rocm-dev rocm-libs \
 && git clone https://github.com/ROCmSoftwarePlatform/hipfort.git /tmp/hipfort \
 && mkdir /tmp/hipfort/build \
 && cd /tmp/hipfort/build \
 && FC=$(which gfortran) cmake -DCMAKE_INSTALL_PREFIX=/tmp/apps/hipfort /tmp/hipfort \
-&& make -j install
-
-# Modifications to the environment that are necessary to run
-RUN . /opt/spack/share/spack/setup-env.sh && \ 
-    cd /opt/spack-environment && \
-    spack env activate --sh -d . >> /etc/profile.d/z10_spack_environment.sh && \
-    echo "PATH=\${PATH}:/opt/rocm/bin"
+&& make -j install \
+&& echo "PATH=\${PATH}:/opt/rocm/bin" >> /etc/profile.d/z10_spack_environment.sh
 
 # Install cuda-compiler
 RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/debian10/x86_64/7fa2af80.pub &&\
