@@ -5,6 +5,13 @@ ARG SPACK_VERSION="develop"
 RUN apt-get update -y && \
     apt-get install git
 
+# Install rocm
+RUN wget -q -O - https://repo.radeon.com/rocm/rocm.gpg.key | apt-key add - \
+&&  echo 'deb [arch=amd64] https://repo.radeon.com/rocm/apt/debian/ xenial main' | tee /etc/apt/sources.list.d/rocm.list \
+&&  apt-get update -y \
+&&  apt-get install rocm-dev rocm-libs
+
+
 RUN git clone https://github.com/spack/spack.git --branch ${SPACK_VERSION} /opt/spack && \
     echo "#!/bin/bash" > /etc/profile.d/spack.sh && \
     echo "SPACK_ROOT=/opt/spack" >> /etc/profile.d/spack.sh && \
@@ -30,7 +37,8 @@ RUN . /opt/spack/share/spack/setup-env.sh && \
 # Modifications to the environment that are necessary to run
 RUN . /opt/spack/share/spack/setup-env.sh && \ 
     cd /opt/spack-environment && \
-    spack env activate --sh -d . >> /etc/profile.d/z10_spack_environment.sh
+    spack env activate --sh -d . >> /etc/profile.d/z10_spack_environment.sh && \
+    echo "PATH=\${PATH}:/opt/rocm/bin"
 
 FROM gcc:10.2.0
 COPY --from=builder /opt /opt
