@@ -3,7 +3,7 @@ FROM gcc:10.2.0 as builder
 ARG SPACK_VERSION="v0.16.1"
 
 RUN apt-get update -y && \
-    apt-get install git
+    apt-get install git lsb-release
 
 RUN git clone https://github.com/spack/spack.git --branch ${SPACK_VERSION} /opt/spack && \
     echo "#!/bin/bash" > /etc/profile.d/spack.sh && \
@@ -45,9 +45,12 @@ RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/
 # Install rocm + hipfort
 RUN . /etc/profile.d/z10_spack_environment.sh \
 &&  wget -q -O - https://repo.radeon.com/rocm/rocm.gpg.key | apt-key add - \
-&&  echo 'deb [arch=amd64] https://repo.radeon.com/rocm/apt/4.1.1/ xenial main' | tee /etc/apt/sources.list.d/rocm.list \
-&&  apt-get update -y \
-&& apt-get install -y hip-base hip-rocclr hip-nvcc \
+&&  echo 'deb [arch=amd64] https://repo.radeon.com/rocm/apt/4.1/ xenial main' | tee /etc/apt/sources.list.d/rocm.list \
+&& wget https://people.debian.org/~paravoid/python-all/unofficial-python-all.asc \
+&& mv unofficial-python-all.asc /etc/apt/trusted.gpg.d \
+&& echo "deb http://people.debian.org/~paravoid/python-all $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/python-all.list \
+&& apt-get update -y \
+&& apt-get install -y rocm-dev rocm-libs \
 && git clone https://github.com/ROCmSoftwarePlatform/hipfort.git /tmp/hipfort \
 && mkdir /tmp/hipfort/build \
 && cd /tmp/hipfort/build \
@@ -60,5 +63,6 @@ FROM gcc:10.2.0
 COPY --from=builder /opt /opt
 COPY --from=builder /etc/profile.d /etc/profile.d
 COPY --from=builder /usr/local/cuda-11.2 /usr/local/cuda-11.2
+COPY --from=builder /usr/local/cuda /usr/local/cuda
 
 ENTRYPOINT ["/bin/bash", "--rcfile", "/etc/profile", "-l"]
