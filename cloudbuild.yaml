@@ -5,10 +5,10 @@ steps:
           args: ['build',
                  'env/${_COMPILER}/${_MPI}/${_PLATFORM}/${_ADD_ONS}',
                  '-t',
-                 'gcr.io/${PROJECT_ID}/cmg-${_COMPILER}-${_MPI}-${_PLATFORM}_${_ADD_ONS}:${_IMAGE_TAG}'
+                 'gcr.io/${PROJECT_ID}/cmg${_ADD_ONS}-${_COMPILER}-${_MPI}-${_PLATFORM}:${_IMAGE_TAG}'
           ]
 
-images: ['gcr.io/${PROJECT_ID}/cmg-${_COMPILER}-${_MPI}-${_PLATFORM}_${_ADD_ONS}:${_IMAGE_TAG}']
+images: ['gcr.io/${PROJECT_ID}/cmg${_ADD_ONS}-${_COMPILER}-${_MPI}-${_PLATFORM}:${_IMAGE_TAG}']
 
 timeout: 14400s
 
