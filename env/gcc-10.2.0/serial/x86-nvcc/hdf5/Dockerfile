@@ -32,19 +32,6 @@ RUN . /opt/spack/share/spack/setup-env.sh && \
     cd /opt/spack-environment && \
     spack env activate --sh -d . >> /etc/profile.d/z10_spack_environment.sh
 
-# Install rocm + hipfort
-RUN . /etc/profile.d/z10_spack_environment.sh \
-&&  wget -q -O - https://repo.radeon.com/rocm/rocm.gpg.key | apt-key add - \
-&&  echo 'deb [arch=amd64] https://repo.radeon.com/rocm/apt/4.1.1/ xenial main' | tee /etc/apt/sources.list.d/rocm.list \
-&&  apt-get update -y \
-&&  apt-get install rocm-dev rocm-libs \
-&& git clone https://github.com/ROCmSoftwarePlatform/hipfort.git /tmp/hipfort \
-&& mkdir /tmp/hipfort/build \
-&& cd /tmp/hipfort/build \
-&& FC=$(which gfortran) cmake -DCMAKE_INSTALL_PREFIX=/tmp/apps/hipfort /tmp/hipfort \
-&& make -j install \
-&& echo "PATH=\${PATH}:/opt/rocm/bin" >> /etc/profile.d/z10_spack_environment.sh
-
 # Install cuda-compiler
 RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/debian10/x86_64/7fa2af80.pub &&\
     add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/debian10/x86_64 /" &&\
@@ -54,6 +41,19 @@ RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/
     echo "#!/bin/bash" > /etc/profile.d/cuda.sh &&\
     echo "export PATH=/usr/local/cuda-11.2/bin\${PATH:+:\${PATH}}" >> /etc/profile.d/cuda.sh &&\
     echo "export LD_LIBRARY_PATH=/usr/local/cuda-11.2/lib64\${LD_LIBRARY_PATH:+:\${LD_LIBRARY_PATH}}" >> /etc/profile.d/cuda.sh
+
+# Install rocm + hipfort
+RUN . /etc/profile.d/z10_spack_environment.sh \
+&&  wget -q -O - https://repo.radeon.com/rocm/rocm.gpg.key | apt-key add - \
+&&  echo 'deb [arch=amd64] https://repo.radeon.com/rocm/apt/4.1.1/ xenial main' | tee /etc/apt/sources.list.d/rocm.list \
+&&  apt-get update -y \
+&& apt-get install -y hip-base hip-rocclr hip-nvcc \
+&& git clone https://github.com/ROCmSoftwarePlatform/hipfort.git /tmp/hipfort \
+&& mkdir /tmp/hipfort/build \
+&& cd /tmp/hipfort/build \
+&& FC=$(which gfortran) cmake -DCMAKE_INSTALL_PREFIX=/opt/rocm /tmp/hipfort \
+&& make -j install \
+&& echo "PATH=\${PATH}:/opt/rocm/bin" >> /etc/profile.d/z10_spack_environment.sh
 
 
 FROM gcc:10.2.0

@@ -37,11 +37,11 @@ RUN . /etc/profile.d/z10_spack_environment.sh \
 &&  wget -q -O - https://repo.radeon.com/rocm/rocm.gpg.key | apt-key add - \
 &&  echo 'deb [arch=amd64] https://repo.radeon.com/rocm/apt/4.1.1/ xenial main' | tee /etc/apt/sources.list.d/rocm.list \
 &&  apt-get update -y \
-&&  apt-get install rocm-dev rocm-libs \
+&& apt-get install -y hip-base hip-rocclr \
 && git clone https://github.com/ROCmSoftwarePlatform/hipfort.git /tmp/hipfort \
 && mkdir /tmp/hipfort/build \
 && cd /tmp/hipfort/build \
-&& FC=$(which gfortran) cmake -DCMAKE_INSTALL_PREFIX=/tmp/apps/hipfort /tmp/hipfort \
+&& FC=$(which gfortran) cmake -DCMAKE_INSTALL_PREFIX=/opt/rocm /tmp/hipfort \
 && make -j install \
 && echo "PATH=\${PATH}:/opt/rocm/bin" >> /etc/profile.d/z10_spack_environment.sh
 
