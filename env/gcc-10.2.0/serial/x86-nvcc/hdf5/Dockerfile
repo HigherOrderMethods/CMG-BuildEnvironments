@@ -33,7 +33,8 @@ RUN . /opt/spack/share/spack/setup-env.sh && \
     spack env activate --sh -d . >> /etc/profile.d/z10_spack_environment.sh
 
 # Install cuda-compiler
-RUN wget https://developer.download.nvidia.com/compute/cuda/11.3.1/local_installers/cuda-repo-debian10-11-3-local_11.3.1-465.19.01-1_amd64.deb &&\
+RUN export DEBIAN_FRONTEND=noninteractive &&\
+    wget https://developer.download.nvidia.com/compute/cuda/11.3.1/local_installers/cuda-repo-debian10-11-3-local_11.3.1-465.19.01-1_amd64.deb &&\
     dpkg -i cuda-repo-debian10-11-3-local_11.3.1-465.19.01-1_amd64.deb &&\
     apt-key add /var/cuda-repo-debian10-11-3-local/7fa2af80.pub &&\
     add-apt-repository contrib &&\
