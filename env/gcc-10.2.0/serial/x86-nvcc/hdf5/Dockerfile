@@ -33,14 +33,15 @@ RUN . /opt/spack/share/spack/setup-env.sh && \
     spack env activate --sh -d . >> /etc/profile.d/z10_spack_environment.sh
 
 # Install cuda-compiler
-RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/debian10/x86_64/7fa2af80.pub &&\
-    add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/debian10/x86_64 /" &&\
+RUN wget https://developer.download.nvidia.com/compute/cuda/11.3.1/local_installers/cuda-repo-debian10-11-3-local_11.3.1-465.19.01-1_amd64.deb &&\
+    dpkg -i cuda-repo-debian10-11-3-local_11.3.1-465.19.01-1_amd64.deb &&\
+    apt-key add /var/cuda-repo-debian10-11-3-local/7fa2af80.pub &&\
     add-apt-repository contrib &&\
-    apt-get -y update &&\
-    apt-get -y install cuda-compiler &&\
+    apt-get update -y &&\
+    apt-get -y install cuda &&\
     echo "#!/bin/bash" > /etc/profile.d/cuda.sh &&\
-    echo "export PATH=/usr/local/cuda-11.2/bin\${PATH:+:\${PATH}}" >> /etc/profile.d/cuda.sh &&\
-    echo "export LD_LIBRARY_PATH=/usr/local/cuda-11.2/lib64\${LD_LIBRARY_PATH:+:\${LD_LIBRARY_PATH}}" >> /etc/profile.d/cuda.sh
+    echo "export PATH=/usr/local/cuda-11.3/bin\${PATH:+:\${PATH}}" >> /etc/profile.d/cuda.sh &&\
+    echo "export LD_LIBRARY_PATH=/usr/local/cuda-11.3/lib64\${LD_LIBRARY_PATH:+:\${LD_LIBRARY_PATH}}" >> /etc/profile.d/cuda.sh
 
 # Install rocm + hipfort
 RUN . /etc/profile.d/z10_spack_environment.sh \
