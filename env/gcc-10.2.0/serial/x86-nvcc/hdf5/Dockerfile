@@ -64,7 +64,7 @@ RUN . /etc/profile.d/z10_spack_environment.sh \
 FROM gcc:10.2.0
 COPY --from=builder /opt /opt
 COPY --from=builder /etc/profile.d /etc/profile.d
-COPY --from=builder /usr/local/cuda-11.2 /usr/local/cuda-11.2
+COPY --from=builder /usr/local/cuda-11.3 /usr/local/cuda-11.3
 COPY --from=builder /usr/local/cuda /usr/local/cuda
 
 ENTRYPOINT ["/bin/bash", "--rcfile", "/etc/profile", "-l"]
