@@ -3,7 +3,7 @@ FROM gcc:10.2.0 as builder
 ARG SPACK_VERSION="v0.16.1"
 
 RUN apt-get update -y && \
-    apt-get install git lsb-release
+    apt-get -y install git lsb-release software-properties-common
 
 RUN git clone https://github.com/spack/spack.git --branch ${SPACK_VERSION} /opt/spack && \
     echo "#!/bin/bash" > /etc/profile.d/spack.sh && \
