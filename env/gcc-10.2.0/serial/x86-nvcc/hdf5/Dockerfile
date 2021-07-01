@@ -42,7 +42,7 @@ RUN export DEBIAN_FRONTEND=noninteractive &&\
     apt-get -y install cuda &&\
     echo "#!/bin/bash" > /etc/profile.d/cuda.sh &&\
     echo "export PATH=/usr/local/cuda-11.3/bin\${PATH:+:\${PATH}}" >> /etc/profile.d/cuda.sh &&\
-    echo "export LD_LIBRARY_PATH=/usr/local/cuda-11.3/lib64\${LD_LIBRARY_PATH:+:\${LD_LIBRARY_PATH}}" >> /etc/profile.d/cuda.sh
+    echo "export LD_LIBRARY_PATH=/usr/local/cuda-11.3/lib64\${LD_LIBRARY_PATH:+:\${LD_LIBRARY_PATH}}" >> /etc/profile.d/cuda.sh 
 
 # Install rocm + hipfort
 RUN . /etc/profile.d/z10_spack_environment.sh \
@@ -53,7 +53,15 @@ RUN . /etc/profile.d/z10_spack_environment.sh \
 && echo "deb http://people.debian.org/~paravoid/python-all $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/python-all.list \
 && apt-get update -y \
 && apt-get install -y rocm-dev rocm-libs \
-&& echo "PATH=\${PATH}:/opt/rocm-4.2.0/bin" >> /etc/profile.d/z10_spack_environment.sh
+&& echo "PATH=\${PATH}:/opt/rocm-4.2.0/bin" >> /etc/profile.d/z10_spack_environment.sh \
+&& rm -r /opt/rocm && ln -s /opt/rocm-4.2.0 /opt/rocm \
+&& git clone https://github.com/ROCmSoftwarePlatform/hipfort.git /tmp/hipfort \
+&& mkdir /tmp/hipfort/build \
+&& cd /tmp/hipfort/build \
+&& FC=$(which gfortran) cmake -DCMAKE_INSTALL_PREFIX=/opt/rocm /tmp/hipfort \
+&& make -j install \
+&& echo "PATH=\${PATH}:/opt/rocm/bin" >> /etc/profile.d/z10_spack_environment.sh
+
 
 
 FROM gcc:10.2.0
